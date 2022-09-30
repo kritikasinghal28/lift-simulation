@@ -1,93 +1,92 @@
-const noOfFloors = document.getElementById("noOfFloors");
-const noOfLifts = document.getElementById("noOfLifts");
-const submitButton = document.getElementById("generate");
-const output = document.querySelector(".output-container");
+const numberOfFloors = document.getElementById("floors");
+const numberOfLifts = document.getElementById("lifts");
+const submitButton = document.getElementById("submit");
+const result = document.getElementById("output");
 
-submitButton.addEventListener("click", () => {
-  if (noOfFloors.value >= 1 && noOfLifts.value >= 1) {
-    addFloors(noOfFloors.value, noOfLifts.value);
+submitButton.addEventListener("click", function () {
+  if (numberOfFloors.value >= 1 && numberOfLifts.value >= 1) {
+    result.innerHTML = addFloor(numberOfFloors.value);
   }
-  noOfFloors.value = "";
-  noOfLifts.value = "";
+  numberOfFloors.value = "";
+  numberOfLifts.value = "";
 });
 
-const addFloors = (floors, lifts) => {
-  output.innerHTML = "";
-  for (let i = floors; i > 0; i--) {
-    output.innerHTML += `<div class="floor-container">
-      <div class="up-down-btn">
-        <div class="up-down ${i}" id="up-btn" data-floor="${i}">Up</div>
-        <div class="up-down ${i}" id="down-btn" data-floor="${i}">Down</div>
+function addFloor(numberOfFloors) {
+  let addedFloors = ``;
+  for (let i = numberOfFloors - 1; i >= 0; i--) {
+    addedFloors += `<div class="floorcontainer" data-floorContainer="${i}">
+    <div class="wrapper">
+      <div class="lift-btn">
+        <button class="move btn-move" data-floor="${i}">Move</button>
       </div>
-      <div class="lift-section">
-        <div class="lift-box">
-          ${i === 1 ? addLifts(lifts) : ``}
-        </div>
-        <div class="ground-box"></div>
+
+      <div class="lift-container">
+        ${i === 0 ? addLift(numberOfLifts.value) : ""}
       </div>
-      <div class="floor-details">Floor-${i - 1}</div>
-    </div>`;
-  }
-};
+    </div>
 
-const addLifts = (noOfLifts) => {
-  let liftContainer = document.createElement("div");
-  liftContainer.classList.add("lifts");
-
-  let lifts = "";
-  for (let j = 0; j < noOfLifts; j++) {
-    lifts += `<div class="lift" data-currentPos = "0">
-    <div id="lift-left" class="lift-door"></div>
-    <div id="lift-right" class="lift-door"></div>
+    <div class="floor">
+      <div class="floor-line"></div>
+      <div class="floor-num-text">
+        Floor:<span class="floor-num">${i}</span>
+      </div>
+    </div>
   </div>`;
   }
-  liftContainer.innerHTML = lifts;
-  return liftContainer.innerHTML;
-};
+  return addedFloors;
+}
 
-let x = 0;
+function addLift(numberOfLifts) {
+  let addedLifts = ``;
+  for (let i = 0; i < numberOfLifts; i++) {
+    addedLifts += `<div class="lift" data-liftposition="${i}">
+        <div class="left-door"></div>
+        <div class="right-door"></div>
+      </div>`;
+  }
+  return addedLifts;
+}
 
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("up-down")) {
-    if (e.target.dataset.floor === x) {
+let currentFloor = 0;
+
+addEventListener("click", (e) => {
+  if (e.target.classList.contains("move")) {
+    if (e.target.dataset.floor == currentFloor) {
       return;
     } else {
-      liftStatus(e.target.classList.item(1));
+      liftStatus(e.target.dataset.floor);
     }
-    x = e.target.dataset.floor;
+    currentFloor = e.target.dataset.floor;
   }
 });
 
-const liftStatus = (floorClicked) => {
+function liftStatus(targetFloor) {
   const lifts = Array.from(document.getElementsByClassName("lift"));
-  for (let index = 0; index < lifts.length; index++) {
-    if (!lifts[index].classList.contains("busy")) {
-      startLift(floorClicked, lifts[index]);
+  for (const lift of lifts) {
+    if (!lift.classList.contains("busy")) {
+      startLift(targetFloor, lift);
       return;
     }
   }
-};
+}
 
-function startLift(floorClicked, notUsedLift) {
-  let currentlocations = notUsedLift.dataset.currentPos;
-  let time = Math.abs(floorClicked - currentlocations) * 2;
-  let move = (floorClicked - 1) * -232;
-  notUsedLift.style.transition = `transform ${time}s linear`;
-  notUsedLift.style.transform = "translateY(" + move + "px)";
-  notUsedLift.classList.add("busy");
-  notUsedLift.dataset.currentPos = floorClicked;
-  // open the Doors
+function startLift(targetFloor, freeLift) {
+  const currentPosition = freeLift.dataset.liftposition;
+  const time = Math.abs(targetFloor - currentPosition);
+  freeLift.style.transition = `transform ${time * 2}s linear`;
+  freeLift.style.transform = `translateY(${-130 * targetFloor}px)`;
+  freeLift.classList.add("busy");
+  freeLift.dataset.liftposition = targetFloor;
   setTimeout(() => {
-    notUsedLift.children[0].classList.add("lift-left-open");
-    notUsedLift.children[1].classList.add("lift-right-open");
-  }, time * 1000 + 1000);
-
+    freeLift.children[0].classList.add("move-left");
+    freeLift.children[1].classList.add("move-right");
+  }, time * 2000 + 1000);
   setTimeout(() => {
-    notUsedLift.children[0].classList.remove("lift-left-open");
-    notUsedLift.children[1].classList.remove("lift-right-open");
-  }, time * 1000 + 4000);
+    freeLift.children[0].classList.remove("move-left");
+    freeLift.children[1].classList.remove("move-right");
+  }, time * 2000 + 4000);
 
   setTimeout(() => {
-    notUsedLift.classList.remove("busy");
-  }, time * 1000 + 7000);
+    freeLift.classList.remove("busy");
+  }, time * 2000 + 6000);
 }
