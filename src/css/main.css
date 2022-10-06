@@ -28,7 +28,7 @@ h2 {
 
 .output-container {
   margin: 5rem auto;
-  max-width: 1140px;
+  max-width: 100%;
   padding: 0 1rem;
 }
 
@@ -50,13 +50,14 @@ h2 {
 .floor-line {
   background-color: black;
   height: 2px;
-  width: 80%;
+  width: 100%;
   margin-right: 5px;
 }
 
 .lift-container {
   width: 80%;
-  height: 120px;
+  height: 112px;
+  display: flex;
 }
 
 .lift-btn {
