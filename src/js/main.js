@@ -14,24 +14,18 @@ submitButton.addEventListener("click", function () {
 function addFloor(numberOfFloors) {
   let addedFloors = ``;
   for (let i = numberOfFloors - 1; i >= 0; i--) {
-    addedFloors += `<div class="floorcontainer" data-floorContainer="${i}">
-    <div class="wrapper">
-      <div class="lift-btn">
+    addedFloors += `<div class="floor-container" data-floorContainer="${i}">
+  <div class="floor">
+    <div class="ground-floor-container">
+      <div class="button-container">
         <button class="move btn-move" data-floor="${i}">Move</button>
       </div>
-
-      <div class="lift-container">
-        ${i === 0 ? addLift(numberOfLifts.value) : ""}
-      </div>
+      ${i === 0 ? addLift(numberOfLifts.value) : ""}
     </div>
-
-    <div class="floor">
-      <div class="floor-line"></div>
-      <div class="floor-num-text">
-        Floor:<span class="floor-num">${i}</span>
-      </div>
-    </div>
-  </div>`;
+  </div>
+   <p class ="">Floor:${i}</p>
+</div>
+`;
   }
   return addedFloors;
 }
@@ -71,10 +65,13 @@ function liftStatus(targetFloor) {
 }
 
 function startLift(targetFloor, freeLift) {
+  console.log(targetFloor);
+  console.log(-135 * targetFloor);
+
   const currentPosition = freeLift.dataset.liftposition;
   const time = Math.abs(targetFloor - currentPosition);
   freeLift.style.transition = `transform ${time * 2}s linear`;
-  freeLift.style.transform = `translateY(${-130 * targetFloor}px)`;
+  freeLift.style.transform = `translateY(${-100 * targetFloor}px)`;
   freeLift.classList.add("busy");
   freeLift.dataset.liftposition = targetFloor;
   setTimeout(() => {

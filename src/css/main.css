@@ -28,48 +28,36 @@ h2 {
 
 .output-container {
   margin: 5rem auto;
-  max-width: 100%;
   padding: 0 1rem;
 }
 
 .floor-container {
-  margin: 1rem auto;
-  padding: 0.5rem;
   position: relative;
-}
-
-.wrapper {
   display: flex;
+  align-items: flex-end;
 }
 
 .floor {
   display: flex;
-  align-items: center;
-}
-
-.floor-line {
-  background-color: black;
-  height: 2px;
+  align-items: flex-end;
+  height: 100px;
   width: 100%;
-  margin-right: 5px;
+  border-bottom: 1px solid black;
 }
 
-.lift-container {
-  width: 80%;
-  height: 112px;
+.ground-floor-container {
+  height: 100%;
   display: flex;
 }
 
-.lift-btn {
+.button-container {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
-  margin-right: 15px;
 }
 
 .btn-move {
   padding: 2px;
+  height: 2rem;
 }
 
 .lift {
@@ -107,4 +95,73 @@ h2 {
 .move-right {
   transform: translate(100%);
   transition-duration: 2.5s;
+}
+
+@media screen and (max-width: 500px) {
+  .lift {
+    height: 50px;
+    width: 20px;
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .lift {
+    height: 90px;
+    width: 50px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .lift {
+    height: 90px;
+    width: 40px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .lift {
+    height: 80px;
+    width: 30px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .lift {
+    height: 60px;
+    width: 20px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .lift {
+    height: 50px;
+    width: 15px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 473px) {
+  .lift {
+    height: 40px;
+    width: 10px;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 418px) {
+  .lift {
+    height: 30px;
+    width: 7px;
+    margin-top: 10px;
+  }
+
+  .right-door,
+  .left-door {
+    border: none;
+  }
 }
